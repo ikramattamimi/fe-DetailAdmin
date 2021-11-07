@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop: 50,
       marginBottom: 40,
-      backgroundColor: '#F8F8FF'
+      backgroundColor: '#F8F8FF',
     },
     box: {
       width: 330,
