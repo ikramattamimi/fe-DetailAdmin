@@ -11,55 +11,11 @@ import {
   } from 'react-native/Libraries/NewAppScreen';
 import Like from '../components/Like';
 
+
 const feed = () => {
     return (
         <View style={styles.container}>
-        
-        {/* <ScrollView>
-            <View style={styles.content}>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-            <View style={styles.box}>
-            <Post height = {210}  marginTop = {10} marginLeft = {5} position = 'absolute'  /> 
-            </View>
-          </View>
-        </ScrollView> */}
-        {/* <ScrollView>
-            <View>
-            <Text>asuu</Text>
-            </View>
-        </ScrollView> */}
+
         <View style={styles.header}>
         <Text style={styles.sectionTitle}>Feed</Text>
         <Image 
@@ -73,7 +29,7 @@ const feed = () => {
                     <Image 
                     style={{width: 306.85, height:231.8, marginTop:20, marginLeft:10, position:'absolute'}}
                     source={require('../assets/icons/post.png')} />
-                    <Like/>
+                   <Like />
                 </View>
                 <View style={styles.box}>
                     <Image 
@@ -101,14 +57,6 @@ const feed = () => {
 
 export default feed
 
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         backgroundColor: '#8fccbbc'
-//     }
-// })
 
 const styles = StyleSheet.create({
     container: {
