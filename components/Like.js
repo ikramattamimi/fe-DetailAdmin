@@ -1,85 +1,68 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  Button,
-  Actionsheet,
-  useDisclose,
-  Box,
-  Platform,
-} from 'react-native';
-export default class Like extends Component {
+    View,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    Image,
+    ScrollView,
+} from "react-native";
 
+const Like = () => {
 
-
-  state={
-    toggle:true,
-    toggle2:true
-  }
-
-  _onPress(){
-    const newState = !this.state.toggle;
-    this.setState({toggle:newState})
-  }
-
-  render(){
-    const {toggle} = this.state;
-    const imageValue = toggle?
-      <Image
-       style={{width:25, height:23}}
-       source={require('../assets/icons/love-white.png')}
-      />
-       :
-      <Image
-        style={{width:25, height:23}}
-        source={require('../assets/icons/love-red.png')}
-      />;
-    const textValue = toggle?"1,545":"1,546";
+    const [idLike, setIdLike] = useState(false);
+    const [totalLike, setTotalLike] = useState(2569);
+    const onPressLike = () => {
+        setIdLike(!idLike);
+        setTotalLike(idLike ? totalLike - 1 : totalLike + 1);
+    }
+    const likeIcon = idLike ?
+        <Image source={require('../assets/icons/love-red.png')} style = {{width: 25, height: 23}} />
+        :
+        <Image source={require('../assets/icons/love-white.png')} style = {{width: 25, height: 23}}/>;
 
     return (
-      
-      <View style={styles.container}>
-        
-        <View>
-          <TouchableOpacity 
-          onPress={()=>this._onPress()}>
-            <Text style={{fontSize:36}}>
-                {imageValue}
-            </Text>
-          </TouchableOpacity>
-          
-          <Text 
-            style=
-            {{
-              color:'black', fontSize:14, position: 'absolute',
-              marginLeft:30, fontWeight: '600', top: 2
-            }}>
-            {textValue}
-          </Text>
-        </View>
-      </View>
-    );  
-  }
-  
-};
+        // <View style={styles.container}>
+            <View style={styles.likeContainer}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={onPressLike}
+                >
+                    {likeIcon}
+                </TouchableOpacity>
+                <Text style={styles.text}>{totalLike}</Text>
+            </View>
 
-const stylesByPlatform = Platform.select({
-  ios: { fontFamily: 'Roboto' },
-  android: { },
-})
+        // </View>
+    );
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        alignItems: 'center',
         justifyContent: 'center',
-        alignItems: 'flex-start',
+        flexDirection: 'column',
+    },
+    likeContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        // flex: 1,
+        // position: "absolute",
+        // borderRadius: 10,
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10,
     },
     text: {
-      ...stylesByPlatform,
-      color: '#000000',
-    },
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#20252E'
+    }
 });
+
+export default Like;

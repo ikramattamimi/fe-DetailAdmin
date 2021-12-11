@@ -10,7 +10,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Like from '../components/Like';
-import Interactive from '../components/Interactive';
+import Comment from '../components/Comment';
 import LikeButton from '../components/LikeButton';
 
 
@@ -29,16 +29,16 @@ const feed = () => {
         <View style={styles.content}>
 
           <View style={styles.box}>
-            <View style={{ flex: 4 }}>
+            <View style={{ }}>
               <Image
                 style={{ margin: 13 }}
                 source={require('../assets/icons/post.png')} />
 
             </View>
 
-            <View style={{ flex: 1, marginLeft: 20 }}>
-              <Like />
-              <Interactive />
+            <View style={{ flex: 1, marginLeft: '5%', flexDirection: 'row', alignItems: 'center',}}>
+              <Like/>
+              <Comment/>
             </View>
           </View>
 
@@ -50,9 +50,9 @@ const feed = () => {
 
             </View>
 
-            <View style={{ flex: 1, marginLeft: 20 }}>
-              <Like />
-              <Interactive />
+            <View style={{ flex: 1, marginLeft: 20, flexDirection: 'row', }}>
+              <Like/>
+              <Comment/>
             </View>
           </View>
 
@@ -64,9 +64,9 @@ const feed = () => {
 
             </View>
 
-            <View style={{ flex: 1, marginLeft: 20 }}>
-              <Like />
-              <Interactive />
+            <View style={{ flex: 1, marginLeft: 20, flexDirection: 'row', }}>
+              <Like/>
+              <Comment/>
             </View>
           </View>
 
@@ -78,9 +78,9 @@ const feed = () => {
 
             </View>
 
-            <View style={{ flex: 1, marginLeft: 20 }}>
-              <Like />
-              <Interactive />
+            <View style={{ flex: 1, marginLeft: 20, flexDirection: 'row', }}>
+              <Like/>
+              <Comment/>
             </View>
           </View>
 
@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     marginBottom: 10,
-
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   sectionTitle: {
     fontSize: 24,

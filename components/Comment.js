@@ -12,15 +12,30 @@ import {
     onRefresh,
     KeyboardAvoidingView,
 } from "react-native";
+import {
+    Button,
+    Actionsheet,
+    useDisclose,
+    Box,
+    Center,
+    NativeBaseProvider,
+} from 'native-base';
 
-const Comment = () => {
+export function Comment() {
+    const { isOpen, onOpen, onClose } = useDisclose()
+    const imageValue2 =
+        <Image
+            style={{ width: 25, height: 22 }}
+            source={require('../assets/icons/comment.png')}
+            alt="comment"
+        />
 
     const [commentValue, setCommentValue] = useState('');
 
     const sendIcon = <Image source={require('../assets/icons/send.png')} style={{ width: 23, height: 25 }} />
 
     const sendComment = () => {
-        if (commentValue == ''){
+        if (commentValue == '') {
 
         }
         else {
@@ -110,54 +125,84 @@ const Comment = () => {
     ]);
 
 
+
     return (
         // <View style={styles.container}>
         <>
+            <View style={styles.iconCommentContainer}>
+                <TouchableOpacity
+                    style={styles.iconComment}
+                    onPress={onOpen}>
+                    {imageValue2}
+                </TouchableOpacity>
+                <Text style={styles.iconCommentTotal}>{Items.length}</Text>
+            </View>
 
-            <ScrollView style={styles.listCommentContainer} >
-                {
-                    Items.map((object) => {
-                        return (
-                            <View  key={object.key}>
-                                <View style={styles.header}>
-                                    {object.avatar}
-                                    <Text style={styles.text_header}>{object.user}</Text>
-                                </View>
-                                <View >
-                                    <Text style={styles.commentValue}>{object.comment}</Text>
-                                </View>
-                            </View>
-                        )
-                    }).reverse()
-                }
-            </ScrollView>
 
-            <KeyboardAvoidingView
-                {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-                style={styles.inputCommentContainer}>
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={sendComment}
-                    >
-                        {sendIcon}
-                    </TouchableOpacity>
-                </View>
+            <Actionsheet isOpen={isOpen} onClose={onClose} size={"full"}>
 
-                <TextInput
-                    multiline
-                    style={styles.input}
-                    placeholder='Add a new comment'
-                    placeholderTextColor='#0f0f0f'
+                <Actionsheet.Content style={{ backgroundColor: '#fff', borderWidth: 0, borderColor: '#fff' }}>
+                    <Box justifyContent="center">
+                        <Text
+                            style={styles.headerCommentTotal}
+                        >
+                            {Items.length} Interactive Comment
+                        </Text>
+                    </Box>
 
-                    maxLength={255}
-                    value={commentValue}
-                    onChangeText={(value) => setCommentValue(value)}
-                />
+                    {/* <Comment /> */}
 
-            </KeyboardAvoidingView>
-        {/* </View> */}
+                    <ScrollView style={styles.listCommentContainer} >
+                        {
+                            Items.map((object) => {
+                                return (
+                                    <View key={object.key}>
+                                        <View style={styles.header}>
+                                            {object.avatar}
+                                            <Text style={styles.text_header}>{object.user}</Text>
+                                        </View>
+                                        <View >
+                                            <Text style={styles.commentValue}>{object.comment}</Text>
+                                        </View>
+                                    </View>
+                                )
+                            }).reverse()
+                        }
+                    </ScrollView>
+                </Actionsheet.Content>
+
+                <KeyboardAvoidingView
+                    {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+                    style={styles.inputCommentContainer}>
+
+                    <View style={styles.iconSendContainer}>
+                        <TouchableOpacity
+                            style={styles.iconSend}
+                            onPress={sendComment}
+                        >
+                            {sendIcon}
+                        </TouchableOpacity>
+                    </View>
+
+                    <TextInput
+                        multiline
+                        style={styles.input}
+                        placeholder='Add a new comment'
+                        placeholderTextColor='#0f0f0f'
+
+                        maxLength={255}
+                        value={commentValue}
+                        onChangeText={(value) => setCommentValue(value)}
+                    />
+
+                </KeyboardAvoidingView>
+            </Actionsheet>
+
+
+
+
+            {/* </View> */}
         </>
     );
 }
@@ -201,14 +246,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         bottom: 20,
     },
-    buttonContainer: {
+    iconSendContainer: {
         position: 'absolute',
         alignItems: 'flex-end',
         justifyContent: 'center',
         right: '6%',
         height: 160,
     },
-    button: {
+    iconSend: {
         zIndex: 10,
         elevation: 6,
         padding: 10,
@@ -239,7 +284,37 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         // flex: 1,
     },
+    iconCommentContainer: {
+        flexDirection: 'row',
+        right: '130%'
+        // flex: 1
+    },
+    iconComment: {
+        padding: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderRadius: 0,
+        borderWidth: 0,
+        margin: 0,
+    },
+    iconCommentTotal: {
+        fontWeight: 'bold',
+        color: '#20252E',
+        marginLeft: 10,
+    },
+    headerCommentTotal: {
+        fontSize: 20,
+        color: '#000',
+        marginBottom: 20
+    },
 
 });
 
-export default Comment;
+export default () => {
+    return (
+        <NativeBaseProvider >
+            <Center flex={1} >
+                <Comment />
+            </Center>
+        </NativeBaseProvider>
+    )
+}
