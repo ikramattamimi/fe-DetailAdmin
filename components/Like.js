@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     StyleSheet,
@@ -8,30 +8,125 @@ import {
     ScrollView,
 } from "react-native";
 
+import Axios from "axios";
+
 const Like = () => {
 
-    const [idLike, setIdLike] = useState(false);
-    const [totalLike, setTotalLike] = useState(2569);
-    const onPressLike = () => {
-        setIdLike(!idLike);
-        setTotalLike(idLike ? totalLike - 1 : totalLike + 1);
-    }
-    const likeIcon = idLike ?
-        <Image source={require('../assets/icons/love-red.png')} style = {{width: 25, height: 23}} />
+
+    // =========================================================================
+    //                                 VARIABLE
+    // =========================================================================
+    const [jmlLike, setJmlLike] = useState();
+    const [statusLike, setStatusLike] = useState();
+    const [currentStatusLike, setCurrentStatusLike] = useState(false);
+
+    // =========================================================================
+    //                                  IMAGE
+    // =========================================================================
+    const likeIcon = currentStatusLike ?
+        <Image source={require('../assets/icons/love-red.png')} style={{ width: 25, height: 23 }} />
         :
-        <Image source={require('../assets/icons/love-white.png')} style = {{width: 25, height: 23}}/>;
+        <Image source={require('../assets/icons/love-white.png')} style={{ width: 25, height: 23 }} />;
+
+    // =========================================================================
+    //                                KONSTANTA
+    // =========================================================================
+    const USER_ID = 12;
+    const FEED_ID = 1;
+    const GET_JML_LIKE = `http://192.168.102.8:8080/api/jmllike/${FEED_ID}`;
+    const GET_STATUS_LIKE = `http://192.168.102.8:8080/api/like/${USER_ID}/${FEED_ID}`;
+    const POST_NEW_LIKE = `http://192.168.102.8:8080/api/like`;
+    const PUT_LIKE = `http://192.168.102.8:8080/api/like/${USER_ID}/${FEED_ID}`;
+    const PUT_UNLIKE = `http://192.168.102.8:8080/api/like/${USER_ID}/${FEED_ID}`;
+
+    // =========================================================================
+    //                                FUNCTION
+    // =========================================================================
+    const getJmlLike = async () => {
+        try {
+            const response = await fetch(GET_JML_LIKE);
+            const json = await response.json();
+            setJmlLike(json.jml_like);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            console.log(jmlLike);
+        }
+    }
+
+    const getStatusLike = async () => {
+        try {
+            const res = await Axios.get(GET_STATUS_LIKE)
+            setStatusLike(res.data.like_status)
+            setStatusIconLike();
+        } catch (error) {
+            console.log(error)
+        } finally {
+            console.log(statusLike);
+            setLoading(false);
+        }
+    }
+
+    const setStatusIconLike = () => {
+        if (statusLike == "none" || statusLike == "false") {
+            setCurrentStatusLike(false);
+        }
+        else if (statusLike == "true") {
+            setCurrentStatusLike(true);
+        }
+    }
+
+    useEffect(() => {
+        getJmlLike();
+        getStatusLike();
+        // setTotalLike(jmlLike);
+    });
+
+
+    const onPressLike = () => {
+        if (statusLike == "none") {
+
+            setCurrentStatusLike(true);
+            setJmlLike(jmlLike + 1);
+
+            const like = {
+                user_id: USER_ID,
+                feed_id: 1,
+                status_like: true,
+            }
+
+            Axios.post(POST_NEW_LIKE, like)
+        }
+
+        else if (statusLike == "false") {
+            const like = {
+                status_like: true,
+            }
+            Axios.put(PUT_LIKE, like)
+        }
+
+        else if (statusLike == "true") {
+            setCurrentStatusLike(false);
+            setJmlLike(jmlLike - 1);
+            const unlike = {
+                status_like: false,
+            }
+            Axios.put(PUT_UNLIKE, unlike)
+        }
+    }
+
 
     return (
         // <View style={styles.container}>
-            <View style={styles.likeContainer}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={onPressLike}
-                >
-                    {likeIcon}
-                </TouchableOpacity>
-                <Text style={styles.text}>{totalLike}</Text>
-            </View>
+        <View style={styles.likeContainer}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={onPressLike}
+            >
+                {likeIcon}
+            </TouchableOpacity>
+            <Text style={styles.text}>{jmlLike}</Text>
+        </View>
 
         // </View>
     );
